@@ -1,8 +1,7 @@
 #!/bin/bash
 
-# Generate traffic for foo.localhost and bar.localhost
-echo "Starting load test for foo.localhost..."
-hey -z 30s -c 10 http://foo.localhost > load-test-result.txt
-
-echo "Starting load test for bar.localhost..."
-hey -z 30s -c 10 http://bar.localhost >> load-test-result.txt
+for i in {1..100}; do
+  curl -s http://foo.localhost > /dev/null &
+  curl -s http://bar.localhost > /dev/null &
+  sleep 0.1
+done

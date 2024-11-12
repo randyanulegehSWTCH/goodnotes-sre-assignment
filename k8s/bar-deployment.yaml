@@ -1,10 +1,9 @@
-# bar-deployment.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: bar-deployment
+  name: bar
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: bar
@@ -14,9 +13,20 @@ spec:
         app: bar
     spec:
       containers:
-      - name: bar-container
-        image: hashicorp/http-echo
-        args:
-        - "-text=bar"
-        ports:
-        - containerPort: 80
+        - name: bar
+          image: hashicorp/http-echo
+          args:
+            - "-text=bar"
+          ports:
+            - containerPort: 5678
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: bar-service
+spec:
+  selector:
+    app: bar
+  ports:
+    - port: 80
+      targetPort: 5678
